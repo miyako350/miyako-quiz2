@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quiz Arena — Past Simple Challenge</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2d;--panel2:#18233b;--text:#f4f7ff;--muted:#9eacc8;--blue:#6c8cff;--purple:#a879ff;--green:#4fe0b0;--red:#ff7285;--line:#2b3855}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1a2450 0,#0b1020 52%);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+.wrap{width:min(980px,92vw);margin:auto;padding:28px 0 50px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px}.brand{font-weight:900;letter-spacing:1.5px;font-size:20px}.brand span{color:var(--blue)}.tag{font-size:12px;color:var(--muted);border:1px solid var(--line);padding:6px 10px;border-radius:99px}
+.hero{padding:30px;border:1px solid #35416a;border-radius:24px;background:linear-gradient(135deg,rgba(108,140,255,.18),rgba(168,121,255,.12));margin-bottom:18px}.eyebrow{color:#b9c6ff;text-transform:uppercase;font-size:12px;font-weight:800;letter-spacing:2px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.08;margin:10px 0}.hero p{color:var(--muted);max-width:650px;margin:0}
+.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.8fr);gap:18px}.card{background:rgba(18,26,45,.94);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 12px 40px #0002}.card h2{margin:0 0 14px;font-size:20px}.muted{color:var(--muted)}label{display:block;font-size:13px;color:var(--muted);margin:14px 0 7px}input{width:100%;background:#0b1224;border:1px solid #34415f;color:var(--text);border-radius:12px;padding:13px 14px;font:inherit;outline:none}input:focus{border-color:var(--blue)}button{cursor:pointer;border:0;border-radius:12px;padding:12px 16px;font:700 15px inherit;color:white;background:linear-gradient(100deg,var(--blue),var(--purple));transition:transform .15s,opacity .15s}button:hover{transform:translateY(-1px)}button:disabled{opacity:.45;cursor:not-allowed;transform:none}.primary{width:100%;margin-top:14px}.secondary{background:#202d49;border:1px solid #354363}.question-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:10px}.progress{height:7px;background:#26314b;border-radius:99px;overflow:hidden;margin:10px 0 24px}.progress div{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));width:0;transition:width .2s}.question{font-size:25px;font-weight:800;line-height:1.25;margin:0 0 20px}.answers{display:grid;gap:10px}.answer{width:100%;text-align:left;background:#18233b;border:1px solid #33415f;padding:14px 16px;font-weight:600}.answer.correct{border-color:var(--green);background:#12352f}.answer.wrong{border-color:var(--red);background:#3b1c2b}.feedback{margin-top:14px;min-height:25px;font-weight:700}.good{color:var(--green)}.bad{color:var(--red)}.row{display:flex;gap:10px;align-items:center;justify-content:space-between}.hide{display:none!important}.score{font-size:42px;font-weight:900;letter-spacing:-1px}.ranklist{list-style:none;padding:0;margin:0}.ranklist li{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.ranklist li:last-child{border-bottom:0}.rank{width:30px;height:30px;display:grid;place-items:center;background:#202d49;border-radius:9px;font-weight:900;color:#c9d4ff}.rank.gold{background:#5b471b;color:#ffe18b}.rank.silver{background:#3a465c;color:#e1e8f5}.rank.bronze{background:#573a2c;color:#ffc19d}.player{min-width:0;flex:1;overflow-wrap:anywhere;font-weight:700}.points{font-weight:900;color:#b8c6ff;white-space:nowrap}.note{font-size:12px;color:var(--muted);margin-top:16px}.status{font-size:12px;color:var(--muted);margin-top:8px}.pill{display:inline-block;border:1px solid var(--line);padding:5px 9px;border-radius:99px;font-size:12px;color:var(--muted)}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.hero{padding:23px}.top{align-items:flex-start}.tag{max-width:145px;text-align:center}.card{padding:18px}.question{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><div class="brand">QUIZ<span>ARENA</span></div><div class="tag">30 асуулт · Past Simple</div></header>
+  <section class="hero"><div class="eyebrow">Knowledge challenge</div><h1>Өөрийгөө сорь.<br>Тэргүүлэгч бол.</h1><p>Нэрээ оруулаад асуултад хариул. Оноогоо цуглуулж, тэргүүлэгчдийн самбарт байр эзлээрэй.</p></section>
+  <div class="grid">
+    <main class="card">
+      <section id="join">
+        <h2>Тоглоомд нэгдэх</h2><p class="muted">Өөрийн нэр эсвэл хочоо бичээд эхлээрэй. Нэг тоглолт 30 асуулттай.</p>
+        <label for="playerName">Тоглогчийн нэр</label><input id="playerName" maxlength="24" placeholder="Жишээ: Sanchir" autocomplete="nickname">
+        <button class="primary" id="startBtn">Тоглоом эхлүүлэх →</button>
+        <div class="status" id="connectionStatus"></div>
+      </section>
+      <section id="quiz" class="hide">
+        <div class="question-meta"><span id="qCounter">Асуулт 1 / 30</span><span>Оноо: <b id="scoreNow">0</b></span></div>
+        <div class="progress"><div id="progressBar"></div></div>
+        <p class="question" id="questionText"></p><div class="answers" id="answers"></div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+        <button class="primary hide" id="nextBtn">Дараагийн асуулт →</button>
+      </section>
+      <section id="result" class="hide">
+        <div class="eyebrow">Challenge complete</div><h2 id="resultTitle">Сайн байна!</h2><div class="score" id="finalScore">0 / 300</div>
+        <p class="muted" id="resultMessage"></p><button class="primary" id="playAgain">Дахин тоглох</button>
+      </section>
+    </main>
+    <aside class="card">
+      <div class="row"><h2>🏆 Тэргүүлэгчид</h2><span class="pill" id="leaderCount">0 тоглогч</span></div>
+      <ol class="ranklist" id="leaderboard"><li class="muted">Онооны жагсаалт ачаалж байна…</li></ol>
+      <p class="note" id="leaderNote">Оноо өндөр байх тусам байр ахина. Оноо тэнцвэл түрүүлж бүртгүүлсэн оноо дээгүүр гарна.</p>
+    </aside>
+  </div>
+</div>
+<script>
+/*
+  GLOBAL LEADERBOARD SETUP:
+  1) Create a Supabase project.
+  2) Run setup.sql in Supabase SQL Editor.
+  3) Paste Project URL and anon/public key below.
+  Without Supabase config, this page works in demo mode and stores scores only in this browser.
+*/
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
+const questions = [
+ {q:"Yesterday, I ___ to school.",a:["go","went","gone","going"],c:1},
+ {q:"She ___ a movie last night.",a:["watch","watched","watches","watching"],c:1},
+ {q:"They ___ football on Sunday.",a:["played","play","plays","playing"],c:0},
+ {q:"We ___ dinner at 7 p.m.",a:["have","has","had","having"],c:2},
+ {q:"He ___ his homework yesterday.",a:["did","do","does","done"],c:0},
+ {q:"I ___ my keys this morning.",a:["lose","lost","loses","losing"],c:1},
+ {q:"___ you visit your grandma last week?",a:["Do","Were","Did","Does"],c:2},
+ {q:"She ___ at home yesterday.",a:["were","is","are","was"],c:3},
+ {q:"We ___ see him at the party.",a:["didn't","weren't","doesn't","not"],c:0},
+ {q:"Tom ___ breakfast before school.",a:["eat","eats","ate","eating"],c:2},
+ {q:"The train ___ at 8 o'clock.",a:["leave","left","leaves","leaving"],c:1},
+ {q:"My parents ___ in 1998.",a:["marry","married","marries","marrying"],c:1},
+ {q:"Where ___ you go yesterday?",a:["do","were","did","are"],c:2},
+ {q:"I ___ tired after the game.",a:["was","were","am","be"],c:0},
+ {q:"They ___ the museum last month.",a:["visited","visit","visits","visiting"],c:0},
+ {q:"He ___ his phone on the bus.",a:["forget","forgot","forgets","forgetting"],c:1},
+ {q:"We ___ any homework last night.",a:["didn't have","don't had","didn't had","not have"],c:0},
+ {q:"She ___ a beautiful picture.",a:["draw","drew","draws","drawing"],c:1},
+ {q:"I ___ coffee this morning.",a:["drink","drank","drunk","drinking"],c:1},
+ {q:"___ they arrive on time?",a:["Were","Do","Did","Does"],c:2},
+ {q:"The weather ___ very cold yesterday.",a:["is","were","was","be"],c:2},
+ {q:"My brother ___ a new bike last year.",a:["buy","buys","bought","buying"],c:2},
+ {q:"We ___ to music after dinner.",a:["listened","listen","listens","listening"],c:0},
+ {q:"She ___ the answer correctly.",a:["knows","know","knew","known"],c:2},
+ {q:"I ___ my room on Saturday.",a:["clean","cleaned","cleans","cleaning"],c:1},
+ {q:"He ___ not come to class yesterday.",a:["did","was","does","has"],c:0},
+ {q:"What time ___ the film start?",a:["does","was","did","is"],c:2},
+ {q:"They ___ happy with the result.",a:["was","were","is","be"],c:1},
+ {q:"I ___ an interesting book last week.",a:["read","reads","reading","have read"],c:0},
+ {q:"She ___ home late last night.",a:["come","comes","came","coming"],c:2}
+];
+let player="", idx=0, score=0, answered=false, scores=[];
+const $=id=>document.getElementById(id);
+const join=$("join"), quiz=$("quiz"), result=$("result");
+function show(section){[join,quiz,result].forEach(x=>x.classList.add("hide"));section.classList.remove("hide")}
+function loadLocal(){try{return JSON.parse(localStorage.getItem("quizArenaScores")||"[]")}catch{return []}}
+function saveLocal(list){localStorage.setItem("quizArenaScores",JSON.stringify(list))}
+async function api(path, options={}) {
+ if(!SUPABASE_URL || !SUPABASE_ANON_KEY) return null;
+ const res=await fetch(SUPABASE_URL.replace(/\/$/,"")+"/rest/v1/"+path,{...options,headers:{apikey:SUPABASE_ANON_KEY,Authorization:"Bearer "+SUPABASE_ANON_KEY,"Content-Type":"application/json",Prefer:"return=representation",...(options.headers||{})}});
+ if(!res.ok) throw new Error("Leaderboard connection failed");
+ return res.status===204?[]:res.json();
+}
+async function getScores(){
+ try{
+  if(SUPABASE_URL&&SUPABASE_ANON_KEY){const d=await api("scores?select=name,score,created_at&order=score.desc,created_at.asc&limit=10");return d||[]}
+ }catch(e){$("connectionStatus").textContent="Онлайн жагсаалт холбогдсонгүй. Түр demo оноо харуулж байна."}
+ return loadLocal().sort((a,b)=>b.score-a.score||new Date(a.created_at)-new Date(b.created_at)).slice(0,10)
+}
+async function renderLeaderboard(){
+ const data=await getScores();$("leaderCount").textContent=data.length+" тоглогч";
+ $("leaderboard").innerHTML="";
+ if(!data.length){$("leaderboard").innerHTML='<li class="muted">Одоогоор оноо алга. Эхнийх нь болоорой!</li>';return}
+ data.forEach((p,i)=>{const li=document.createElement("li");const rank=document.createElement("span");rank.className="rank "+(["gold","silver","bronze"][i]||"");rank.textContent=i+1;const name=document.createElement("span");name.className="player";name.textContent=p.name;const points=document.createElement("span");points.className="points";points.textContent=p.score+" оноо";li.append(rank,name,points);$("leaderboard").append(li)})
+}
+function start(){player=$("playerName").value.trim();if(!player){$("playerName").focus();return}idx=0;score=0;answered=false;show(quiz);renderQuestion()}
+function renderQuestion(){
+ answered=false;$("qCounter").textContent=`Асуулт ${idx+1} / ${questions.length}`;$("scoreNow").textContent=score;$("progressBar").style.width=(idx/questions.length*100)+"%";
+ $("questionText").textContent=questions[idx].q;$("answers").innerHTML="";$("feedback").textContent="";$("nextBtn").classList.add("hide");
+ questions[idx].a.forEach((a,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+i)+". "+a;b.onclick=()=>choose(i,b);$("answers").append(b)})
+}
+function choose(choice,btn){if(answered)return;answered=true;const q=questions[idx];[...$("answers").children].forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add("correct")});if(choice===q.c){score+=10;$("feedback").textContent="Зөв! +10 оноо";$("feedback").className="feedback good"}else{btn.classList.add("wrong");$("feedback").textContent="Буруу. Зөв хариулт: "+q.a[q.c];$("feedback").className="feedback bad"}$("scoreNow").textContent=score;$("progressBar").style.width=((idx+1)/questions.length*100)+"%";$("nextBtn").textContent=idx===questions.length-1?"Үр дүн харах →":"Дараагийн асуулт →";$("nextBtn").classList.remove("hide")}
+$("nextBtn").onclick=()=>{if(idx<questions.length-1){idx++;renderQuestion()}else finish()};
+async function finish(){
+ show(result);$("finalScore").textContent=score+" / "+(questions.length*10);$("resultTitle").textContent=score>=250?"Гайхалтай, "+player+"!":score>=180?"Сайн ажиллалаа, "+player+"!":"Дахин оролдоорой, "+player+"!";
+ $("resultMessage").textContent="Таны оноо: "+score+". Тэргүүлэгчдийн жагсаалтыг шинэчилж байна.";
+ const record={name:player,score,created_at:new Date().toISOString()};
+ try{
+  if(SUPABASE_URL&&SUPABASE_ANON_KEY){await api("scores",{method:"POST",body:JSON.stringify(record)})}
+  else {const all=loadLocal();all.push(record);saveLocal(all)}
+  $("resultMessage").textContent="Таны оноо "+score+" гэж бүртгэгдлээ. Амжилт!";
+ }catch(e){$("resultMessage").textContent="Оноог онлайнд хадгалж чадсангүй. Дахин оролдоно уу."}
+ await renderLeaderboard()
+}
+$("startBtn").onclick=start;$("playerName").addEventListener("keydown",e=>{if(e.key==="Enter")start()});$("playAgain").onclick=()=>{show(join);$("playerName").value=player;renderLeaderboard()};
+$("connectionStatus").textContent=(SUPABASE_URL&&SUPABASE_ANON_KEY)?"Онлайн онооны самбар идэвхтэй.":"Demo горим: нийтэд нэгдсэн онооны самбар ажиллуулахын тулд Supabase тохируулна.";
+renderLeaderboard();
+</script>
+</body></html>
